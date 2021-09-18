@@ -1,0 +1,29 @@
+{
+  "name": "vat",
+  "version": "0.1.0",
+  "description": "EU VAT Information Exchange System API. Validation of VAT numbers at scale.",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "npx workers-ci build src/index.js",
+    "deploy": "npx workers-ci deploy src/index.js vat",
+    "format": "prettier --write '*/*.{js,css,json,md}' --arrow-parens avoid --trailing-comma none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adaptive/vat.git"
+  },
+  "author": "Hugo Romano <hugoromano@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adaptive/vat/issues"
+  },
+  "homepage": "https://github.com/adaptive/vat#readme",
+  "dependencies": {
+    "fast-xml-parser": "3.20.0"
+  },
+  "devDependencies": {
+    "prettier": "2.4.0",
+    "workers-ci": "0.1.14"
+  },
+  "private": true
+}
