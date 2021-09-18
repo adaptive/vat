@@ -1,5 +1,6 @@
 import { parse } from "fast-xml-parser";
 import { countries, mime, welcome } from "./_const";
+import { validatePT } from "./_validations";
 import { version } from "../package.json";
 
 const cache_time = 86400;
@@ -15,7 +16,10 @@ const handleRequest = async event => {
   if (!response) {
     /** Invalid vat number */
     if (countries.includes(elements[0]) && elements[1]) {
-      if (elements[1].length > 12) {
+      if (
+        elements[1].length > 12 ||
+        (elements[0] == "pt" && !(await validatePT(elements[1])))
+      ) {
         return new Response("Not Accept Identification Number", {
           status: 400
         });

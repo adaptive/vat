@@ -1,6 +1,6 @@
 # VAT VIES API
 
-Simple API to validate VAT numbers. Cloudflare Workers and Cloudflare KV to offload the official European Union API. This solution guarantees that within 24 hours, only one request per unique VAT number to EU servers. SOAP conversion to JSON.
+Simple API to validate VAT numbers. Cloudflare Workers and Cloudflare KV to offload the official European Union API. This solution guarantees that within 24 hours, only one request per unique VAT number to EU servers. SOAP conversion to JSON. For demonstration Portuguese VAT numbers are format validated before calling VIES API.
 [Demo](https://vat.adaptive.workers.dev/)
 
 
