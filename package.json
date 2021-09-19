@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/adaptive/vat#readme",
   "dependencies": {
-    "fast-xml-parser": "3.20.0"
+    "fast-xml-parser": "3.20.0",
+    "jsvat": "2.5.3"
   },
   "devDependencies": {
     "prettier": "2.4.0",

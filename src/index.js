@@ -1,6 +1,6 @@
 import { parse } from "fast-xml-parser";
-import { countries, mime, welcome } from "./_const";
-import { validatePT } from "./_validations";
+import { allowed, mime, welcome } from "./_const";
+import { checkVAT, countries } from "jsvat";
 import { version } from "../package.json";
 
 const cache_time = 86400;
@@ -15,18 +15,15 @@ const handleRequest = async event => {
   let response = await cache.match(event.request.url);
   if (!response) {
     /** Invalid vat number */
-    if (countries.includes(elements[0]) && elements[1]) {
-      if (
-        elements[1].length > 12 ||
-        (elements[0] == "pt" && !(await validatePT(elements[1])))
-      ) {
+    if (allowed.includes(elements[0]) && elements[1]) {
+      const key = (elements[0] + elements[1]).toUpperCase();
+      if (!checkVAT(key, countries).isValid) {
         return new Response("Not Accept Identification Number", {
           status: 400
         });
       }
 
       /** Use KV instead of calling original source of truth */
-      const key = (elements[0] + elements[1]).toLowerCase();
       let output = await vatKV.get(key, "json");
       if (output === null) {
         /** Promise Race  */
@@ -67,7 +64,7 @@ const handleRequest = async event => {
       });
       event.waitUntil(cache.put(event.request.url, response.clone()));
       /** Invalid Country */
-    } else if (!countries.includes(elements[0]) && elements[1]) {
+    } else if (!allowed.includes(elements[0]) && elements[1]) {
       response = new Response("Invalid Country", {
         status: 400
       });
