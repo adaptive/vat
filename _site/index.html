@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title>VAT VIES API</title>
+<meta name="Generator" content="Cocoa HTML Writer">
+<meta name="CocoaVersion" content="2022.6">
+<style type="text/css">
+p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 17.0px Avenir; color: #313131; -webkit-text-stroke: #dadde2}
+p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 17.0px Avenir; color: #313131; min-height: 23.0px}
+p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 17.0px Avenir; color: #ffffff; -webkit-text-stroke: #d3e8ff}
+p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 34.0px 'Avenir Next'; color: #313131}
+p.p5 {margin: 0.0px 0.0px 0.0px 0.0px; font: 17.0px Avenir; color: #313131}
+p.p6 {margin: 0.0px 0.0px 0.0px 36.0px; text-indent: -31.0px; font: 17.0px Avenir; color: #313131; min-height: 23.0px}
+p.p7 {margin: 0.0px 0.0px 0.0px 36.0px; text-indent: -31.0px; font: 17.0px Avenir; color: #313131; -webkit-text-stroke: #000000}
+p.p8 {margin: 0.0px 0.0px 0.0px 36.0px; text-indent: -31.0px; font: 17.0px Avenir; color: #313131}
+p.p9 {margin: 0.0px 0.0px 0.0px 0.0px; font: 17.0px Avenir; color: #313131; -webkit-text-stroke: #76e78c}
+p.p10 {margin: 0.0px 0.0px 0.0px 28.0px; text-indent: -28.0px; font: 17.0px Avenir; color: #313131; -webkit-text-stroke: #dadde2}
+p.p11 {margin: 0.0px 0.0px 0.0px 28.0px; text-indent: -28.0px; font: 17.0px Avenir; color: #ffffff}
+span.s1 {font-kerning: none}
+span.s2 {text-decoration: underline ; font-kerning: none}
+span.s3 {font: 34.0px 'Apple Color Emoji'}
+span.s4 {color: #ffffff}
+span.s5 {font-kerning: none; -webkit-text-stroke: 0px #000000}
+span.s6 {font: 34.0px 'Avenir Next'; -webkit-text-stroke: 0px #000000}
+span.s7 {font-kerning: none; color: #313131; -webkit-text-stroke: 0px #dadde2}
+</style>
+<style>
+*{
+    
+    margin:0px;
+    
+}
+
+.container{
+    width:700px;
+    margin-left:auto;
+    margin-right:auto;
+    
+}
+
+.header{
+    background-color:green;
+    height:40px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    color:white;
+    font-family: 'Avenir-Book'; font-weight: normal; font-style: normal; font-size: 17.00pt;
+/*    margin-bottom:30px;*/
+    padding-top:10px;
+    margin-bottom:30px;
+
+}
+
+
+img{
+    max-width:700px;
+}
+
+.editor_table{
+    width:100%;
+    border : 1px;
+    border-collapse: collapse;
+    font-family: "Avenir";
+}
+.editor_table, th, td {
+    border: 1px solid #bbb;
+    padding: 5px;
+    text-align: left;
+}
+
+blockquote.strike_quote, blockquote.cite, blockquote[type="cite"] {
+    margin: 0px 0px 0px 0px !important;
+    padding: 0px 0px 0px 7px !important;
+    border-left: 2px solid #0080ff !important;
+    color: #0080ff !important;
+}
+
+blockquote.strike_code_block {
+    background-color:lightgray;
+    margin: 0px 0px 0px 0px !important;
+    padding: 0px 0px 0px 7px !important;
+    color: #0080ff !important;
+}
+
+a { color: rgba(255,0,0,1.0);}</style></head>
+<body><div class="header" style="background-color: rgba(255,0,0,1.0);">VAT VIES API</div><div class="container">
+<p class="p1"><span class="s1">Simple API to validate VAT numbers. Cloudflare Workers and Cloudflare KV to offload the official European Union API. This solution guarantees that within 24 hours, only one request per unique VAT number to EU servers. SOAP conversion to JSON. VAT numbers are format validated before calling VIES API to check deductibility status.</span></p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p3"><span class="s2"><a href="https://vat.adaptive.workers.dev/">Demo API</a></span></p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p4"><span class="s3">&#x1F6E0;&#xFE0F;</span><b> Usage</b></p>
+<p class="p2"><br></p>
+<blockquote class="strike_code_block"><p class="p5"><a href="https://vat.adaptive.workers.dev/"><span class="s4">https://vat.adaptive.workers.dev/</span></a></p>
+<p class="p6"><br></p>
+<p class="p7"><span class="s1">Request</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>GET /:country/:number</span></p>
+<p class="p6"><br></p>
+<p class="p7"><span class="s1">Examples:</span></p>
+<p class="p7"><span class="s1">Request</span></p>
+<p class="p8"><span class="s5"><span class="Apple-converted-space">&nbsp; &nbsp; </span>GET </span>https://vat.adaptive.workers.dev/<span class="s5">es/W0184081H</span></p>
+<p class="p6"><br></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>Response</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>application/json</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>{"country":"ES","vat":"W0184081H","status":true}</span></p>
+<p class="p6"><br></p>
+<p class="p7"><span class="s1">Request</span></p>
+<p class="p8"><span class="s5"><span class="Apple-converted-space">&nbsp; &nbsp; </span>GET </span>https://vat.adaptive.workers.dev/<span class="s5">pt/515486817</span></p>
+<p class="p6"><br></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">&nbsp; </span>Response</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>application/json</span></p>
+<p class="p7"><span class="s1"><span class="Apple-converted-space">&nbsp; &nbsp; </span>{"country":"PT","vat":"515486817","status":true}</span></p>
+</blockquote><br><p class="p8"></p>
+<p class="p4"><span class="s3">&#x1F970;</span><b> Cloudflare Workers&#xAE;</b></p>
+<blockquote type="cite" class="strike_quote"><p class="p9"><span class="s6"><b></b></span><span class="s1">Cloudflare Workers provides a serverless execution environment that allows you to create entirely new applications or augment existing ones without configuring or maintaining infrastructure.</span></p>
+</blockquote><br><p class="p10"><span class="s1"></span></p>
+<p class="p4"><span class="s3">&#x1F31F;</span><b> Cloudflare Developer Summer Challenge</b></p>
+<p class="p2"><br></p>
+<p class="p11"><input type="checkbox" checked><span class="Apple-converted-space"> </span><span class="s7">Cloudflare Workers</span></p>
+<p class="p11"><input type="checkbox" checked><span class="Apple-converted-space"> </span><span class="s7">Cloudflare KV</span></p>
+<p class="p11"><input type="checkbox" checked><span class="Apple-converted-space"> </span><span class="s7">Cloudflare Pages</span></p>
+<p class="p11"><input type="checkbox"><span class="Apple-converted-space"> </span><span class="s7">Durable Objects (TODO)</span></p>
+</div></body>
+</html>
