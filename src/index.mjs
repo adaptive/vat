@@ -1,13 +1,18 @@
 import { parse } from "fast-xml-parser";
 import { allowed, mime, welcome } from "./_const";
 import { checkVAT, countries } from "jsvat";
-import { version } from "../package.json";
 
+const version = "0.1.2";
 const cache_time = 86400;
-
 const cache = caches.default;
 
-const handleRequest = async event => {
+export default {
+  async fetch(event, env) {
+    return await handleRequest(event, env);
+  }
+};
+
+const handleRequest = async (event,env) => {
   const url = new URL(event.request.url);
   const elements = url.pathname.split("/").filter(n => n);
 
@@ -86,9 +91,3 @@ const handleRequest = async event => {
   }
   return response;
 };
-
-export default {
-  async fetch(event, env) {
-    return await handleRequest(event, env);
-  }
-}

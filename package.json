@@ -1,11 +1,10 @@
 {
   "name": "vat",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "EU VAT Information Exchange System API. Validation of VAT numbers at scale.",
   "main": "src/index.js",
   "scripts": {
-    "build": "npx workers-ci build src/index.mjs",
-    "deploy": "npx workers-ci deploy src/index.mjs vat",
+    "build": "rollup -c",
     "format": "prettier --write '*/*.{js,css,json,md}' --arrow-parens avoid --trailing-comma none"
   },
   "repository": {
@@ -23,8 +22,13 @@
     "jsvat": "2.5.3"
   },
   "devDependencies": {
-    "prettier": "2.4.0",
-    "workers-ci": "0.1.14"
+    "@rollup/plugin-commonjs": "20.0.0",
+    "@rollup/plugin-node-resolve": "13.0.4",
+    "prettier": "2.4.1",
+    "rollup": "2.56.3",
+    "rollup-plugin-copy": "3.4.0",
+    "rollup-plugin-terser": "7.0.2",
+    "@cloudflare/wrangler": "1.19.3"
   },
   "private": true
 }
