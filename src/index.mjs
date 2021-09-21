@@ -1,18 +1,42 @@
 import { parse } from "fast-xml-parser";
 import { allowed, mime, welcome } from "./_const";
 import { checkVAT, countries } from "jsvat";
-import { version } from "../package.json";
 
+export { Counter } from "./counter.mjs";
+
+export default {
+  async fetch(request, env, ctx) {
+    try {
+      return await handleRequest(request, env);
+    } catch (e) {
+      console.log(e);
+      return new Response(e.message);
+    }
+  },
+  async schedule(event, env) {
+    try {
+      return await handleSchedule(request, env);
+    } catch (e) {
+      console.log(e);
+      return new Response(e.message);
+    }
+  }
+};
+const version = "0.1.3";
 const cache_time = 86400;
-
 const cache = caches.default;
 
-const handleRequest = async event => {
-  const url = new URL(event.request.url);
-  const elements = url.pathname.split("/").filter(n => n);
+const handleRequest = async (request, env, ctx) => {
+  const address = new URL(request.url);
+  const elements = address.pathname.split("/").filter(n => n);
+
+  let id = env.COUNTER.idFromName(request.headers.get("CF-Connecting-IP"));
+  let obj = env.COUNTER.get(id);
+  let resp = await obj.fetch(request.url);
+  let count = parseInt(await resp.text());
 
   /** Check for Cached Result*/
-  let response = await cache.match(event.request.url);
+  let response = await cache.match(request.url);
   if (!response) {
     /** Invalid vat number */
     if (allowed.includes(elements[0]) && elements[1]) {
@@ -24,7 +48,7 @@ const handleRequest = async event => {
       }
 
       /** Use KV instead of calling original source of truth */
-      let output = await vatKV.get(key, "json");
+      let output = await env.vatKV.get(key, "json");
       if (output === null) {
         /** Promise Race  */
         const Resp = await Promise.race([
@@ -47,11 +71,10 @@ const handleRequest = async event => {
           status:
             parsed["soap:Envelope"]["soap:Body"]["checkVatResponse"]["valid"]
         };
-        event.waitUntil(
-          vatKV.put(key, JSON.stringify(output), {
-            expirationTtl: cache_time
-          })
-        );
+
+        await env.vatKV.put(key, JSON.stringify(output), {
+          expirationTtl: cache_time
+        });
       }
       const body = JSON.stringify(output);
       response = new Response(body, {
@@ -62,7 +85,7 @@ const handleRequest = async event => {
           "X-Version": version
         }
       });
-      event.waitUntil(cache.put(event.request.url, response.clone()));
+      await cache.put(request.url, response.clone());
       /** Invalid Country */
     } else if (!allowed.includes(elements[0]) && elements[1]) {
       response = new Response("Invalid Country", {
@@ -77,9 +100,10 @@ const handleRequest = async event => {
     } else if (elements[0] === undefined) {
       response = new Response(welcome, {
         headers: {
-          "Content-Type": mime.json,
+          "Content-Type": mime.txt,
           "Cache-Control": `public, max-age=${cache_time}, immutable`,
-          "X-Version": version
+          "X-Version": version,
+          "X-Usage": count
         }
       });
     }
@@ -87,4 +111,6 @@ const handleRequest = async event => {
   return response;
 };
 
-addEventListener("fetch", event => event.respondWith(handleRequest(event)));
+const handleSchedule = async (event, env) => {
+  console.log("test");
+};

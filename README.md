@@ -15,7 +15,7 @@ GET /:country/:number
 - [x] Cloudflare Workers
 - [x] Cloudflare Workers KV
 - [x] Cloudflare Pages
-- [ ] Durable Objects (TODO)
+- [x] Durable Objects (Not complete, implementing rate limiting per IP)
 
 ## 🌍 [Cloudflare Workers®](https://workers.cloudflare.com/)
 > Cloudflare Workers provides a serverless execution environment that allows you to create entirely new applications or augment existing ones without configuring or maintaining infrastructure.

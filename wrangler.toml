@@ -1,0 +1,23 @@
+name = "do-test"
+type = "javascript"
+account_id = "88c6d2bbae479d0d28c7809df51fae29"
+workers_dev = true
+route = ""
+zone_id = ""
+compatibility_date = "2021-09-21"
+
+[build]
+command = "npm install && npm run build"
+[build.upload]
+format = "modules"
+main = "./index.mjs"
+
+[[kv_namespaces]]
+binding = "vatKV"
+id = "a6396ecb0dea4aa8a8bbd77086460482"
+
+[durable_objects]
+bindings = [{name = "COUNTER", class_name = "Counter"}]
+
+[triggers]
+crons = ["* * * * *"]
