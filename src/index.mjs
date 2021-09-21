@@ -87,4 +87,8 @@ const handleRequest = async event => {
   return response;
 };
 
-addEventListener("fetch", event => event.respondWith(handleRequest(event)));
+export default {
+  async fetch(event, env) {
+    return await handleRequest(event, env);
+  }
+}

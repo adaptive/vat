@@ -4,8 +4,8 @@
   "description": "EU VAT Information Exchange System API. Validation of VAT numbers at scale.",
   "main": "src/index.js",
   "scripts": {
-    "build": "npx workers-ci build src/index.js",
-    "deploy": "npx workers-ci deploy src/index.js vat",
+    "build": "npx workers-ci build src/index.mjs",
+    "deploy": "npx workers-ci deploy src/index.mjs vat",
     "format": "prettier --write '*/*.{js,css,json,md}' --arrow-parens avoid --trailing-comma none"
   },
   "repository": {
