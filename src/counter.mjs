@@ -4,13 +4,13 @@ export class Counter {
 
     this.state.blockConcurrencyWhile(async () => {
       let stored = await this.state.storage.get("value");
-      this.value = stored || 0;
+      this.value = stored || 600;
     });
   }
 
   async fetch(request) {
     let currentValue = this.value;
-    currentValue = ++this.value;
+    currentValue = --this.value;
     await this.state.storage.put("value", this.value);
     return new Response(currentValue);
   }

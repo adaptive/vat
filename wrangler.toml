@@ -1,4 +1,4 @@
-name = "do-test"
+name = "vat"
 type = "javascript"
 account_id = "88c6d2bbae479d0d28c7809df51fae29"
 workers_dev = true
@@ -20,4 +20,4 @@ id = "a6396ecb0dea4aa8a8bbd77086460482"
 bindings = [{name = "COUNTER", class_name = "Counter"}]
 
 [triggers]
-crons = ["* * * * *"]
+crons = ["*/5 * * * *"]
