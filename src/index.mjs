@@ -1,6 +1,7 @@
 import { parse } from "fast-xml-parser";
-import { allowed, mime, welcome } from "./_const";
 import { checkVAT, countries } from "jsvat";
+import { allowed, mime, welcome } from "./_const";
+
 
 export { Counter } from "./counter.mjs";
 
@@ -15,7 +16,7 @@ export default {
   },
   async scheduled(event, env) {
     try {
-      return await handleSchedule(request, env);
+      return await handleSchedule(event, env);
     } catch (e) {
       console.log(e);
       return new Response(e.message);
@@ -23,22 +24,22 @@ export default {
   }
 };
 
-const version = "0.1.3";
+const version = "0.1.4";
 const cache_time = 86400;
+const period = 60;
 const cache = caches.default;
 
 const handleRequest = async (request, env, ctx) => {
   const address = new URL(request.url);
   const elements = address.pathname.split("/").filter(n => n);
 
-  let id = env.COUNTER.idFromName(request.headers.get("CF-Connecting-IP"));
+  let id = env.COUNTER.idFromName(request.cf.colo);
   let obj = env.COUNTER.get(id);
   let resp = await obj.fetch(request.url);
   let count = parseInt(await resp.text());
-  const epoch = 1609459200; // TODO next our reset
 
   if (count < 1) {
-    return new Response(`Too Many Request! Limit resets at ${epoch}`, {
+    return new Response(`Too Many Request`, {
       status: 429
     });
     s;
@@ -94,12 +95,14 @@ const handleRequest = async (request, env, ctx) => {
           "Content-Type": mime.json,
           "Cache-Control": `public, max-age=${cache_time}, immutable`,
           "X-Version": version,
-          "X-Rate-Limit-Limit": 600,
+          "X-Rate-Limit-Limit": 60,
           "X-Rate-Limit-Remaining": count,
-          "X-Rate-Limit-Reset": epoch
+          "X-Rate-Limit-Period-Seconds": period
         }
       });
-      // ctx.waitUntil(await cache.put(request.url, response.clone()));
+      // TODO Cache, Reduce KV reqs
+      //ctx.waitUntil(await cache.put(request.url, response.clone()));
+
       /** Invalid Country */
     } else if (!allowed.includes(elements[0]) && elements[1]) {
       response = new Response("Invalid Country", {
@@ -117,9 +120,9 @@ const handleRequest = async (request, env, ctx) => {
           "Content-Type": mime.txt,
           "Cache-Control": `public, max-age=${cache_time}, immutable`,
           "X-Version": version,
-          "X-Rate-Limit-Limit": 600,
+          "X-Rate-Limit-Limit": 60,
           "X-Rate-Limit-Remaining": count,
-          "X-Rate-Limit-Reset": epoch
+          "X-Rate-Limit-Period-Seconds": period
         }
       });
     }
@@ -128,7 +131,5 @@ const handleRequest = async (request, env, ctx) => {
   return response;
 };
 
-const handleSchedule = async (event, env) => {
-  await env.COUNTER.deleteAll();
-  console.log("test");
+const handleSchedule = async (controller, env, ctx) => {
 };

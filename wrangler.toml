@@ -18,6 +18,3 @@ id = "a6396ecb0dea4aa8a8bbd77086460482"
 
 [durable_objects]
 bindings = [{name = "COUNTER", class_name = "Counter"}]
-
-[triggers]
-crons = ["*/5 * * * *"]
