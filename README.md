@@ -12,10 +12,10 @@ GET /:country/:number
 
 ## 🥰 [Cloudflare Developer Summer Challenge](https://challenge.developers.cloudflare.com/)
 
-- [x] Cloudflare Workers
-- [x] Cloudflare Workers KV
-- [x] Cloudflare Pages
-- [x] Durable Objects (Not complete, implementing rate limiting per IP)
+- [x] Cloudflare Workers (The App)
+- [x] Cloudflare Workers KV (Storing data for 24 hours)
+- [x] Cloudflare Pages (Documentation)
+- [x] Durable Objects (Rate Limiter)
 
 ## 🌍 [Cloudflare Workers®](https://workers.cloudflare.com/)
 > Cloudflare Workers provides a serverless execution environment that allows you to create entirely new applications or augment existing ones without configuring or maintaining infrastructure.

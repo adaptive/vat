@@ -41,6 +41,8 @@ export const welcome = `VAT Status Validation - VIES Relay API
 Validation across the European Union
 AT BE BG CY CZ DE DK EE EL ES FI FR HR HU IE IT LT LU LV MT NL PL PT RO SE SI SK XI
 
+API Limits:
+To avoid abuse each IP address is rate limited at 60 request/min. Header X-Rate-Limit-Remaining tells you the amount of requests left per period.
 
 Usage:
 Request
