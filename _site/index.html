@@ -87,7 +87,7 @@ blockquote.strike_code_block {
 
 a { color: rgba(255,0,0,1.0);}</style></head>
 <body><div class="header" style="background-color: rgba(255,0,0,1.0);">VAT VIES API</div><div class="container">
-<p class="p1"><span class="s1">Simple API to validate VAT numbers. Cloudflare Workers and Cloudflare KV to offload the official European Union API. This solution guarantees that within 24 hours, only one request per unique VAT number to EU servers. SOAP conversion to JSON. VAT numbers are format validated before calling VIES API to check deductibility status.</span></p>
+<p class="p1"><span class="s1">Simple API to validate VAT numbers. Cloudflare Workers and Cloudflare KV to offload the official European Union API. Successful lookups are cached for 24 hours. Concurrent cache misses can still make multiple requests to VIES. SOAP conversion to JSON. VAT numbers are format validated before calling VIES API to check registration status.</span></p>
 <p class="p2"><br></p>
 <p class="p2"><br></p>
 <p class="p2"><br></p>

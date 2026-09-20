@@ -1,22 +1,50 @@
+import { RATE_LIMIT, RATE_PERIOD_SECONDS } from "./_const.mjs";
+
+// Retain the existing Counter class and KV storage backend for deployed objects.
 export class Counter {
-  constructor(state, env) {
+  constructor(state) {
     this.state = state;
   }
 
-  async fetch(request) {
-    let clock = await this.state.storage.get("clock");
+  async fetch() {
+    const result = await this.state.storage.transaction(async (storage) => {
+      const now = Date.now();
+      let window = await storage.get("window");
+      if (!window || now >= window.resetAt) {
+        window = {
+          remaining: RATE_LIMIT,
+          resetAt: now + RATE_PERIOD_SECONDS * 1000,
+        };
+        await storage.setAlarm(window.resetAt);
+      }
+      const allowed = window.remaining > 0;
+      if (allowed) {
+        window.remaining -= 1;
+        await storage.put("window", window);
+      }
+      return { ...window, allowed };
+    });
 
-    if (!clock || !(clock + 60000 > Date.now())) {
-      clock = Date.now();
-      await this.state.storage.deleteAll();
-      await this.state.storage.put("clock", clock);
+    const headers = {
+      "X-Rate-Limit-Limit": String(RATE_LIMIT),
+      "X-Rate-Limit-Remaining": String(result.remaining),
+      "X-Rate-Limit-Period-Seconds": String(RATE_PERIOD_SECONDS),
+      "Cache-Control": "no-store",
+    };
+    if (!result.allowed) {
+      headers["Retry-After"] = String(
+        Math.max(1, Math.ceil((result.resetAt - Date.now()) / 1000)),
+      );
     }
+    return new Response(null, { status: result.allowed ? 200 : 429, headers });
+  }
 
-    let ip = request.headers.get("CF-Connecting-IP");
-    let stored = await this.state.storage.get(ip);
-    let value = stored || 60;
-    value = --value;
-    await this.state.storage.put(ip, value);
-    return new Response(value);
+  async alarm() {
+    // A delayed alarm must not delete a window opened by a newer request.
+    await this.state.storage.transaction(async (storage) => {
+      const window = await storage.get("window");
+      if (window && window.resetAt <= Date.now())
+        await storage.delete("window");
+    });
   }
 }

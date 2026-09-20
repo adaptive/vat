@@ -2,10 +2,19 @@
   "name": "vat",
   "version": "0.1.4",
   "description": "EU VAT Information Exchange System API. Validation of VAT numbers at scale.",
-  "main": "src/index.js",
+  "type": "module",
+  "main": "src/index.mjs",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "build": "rollup -c",
-    "format": "prettier --write '*/*.{js,mjs,css,json,md}' --arrow-parens avoid --trailing-comma none"
+    "dev": "wrangler dev",
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "deploy": "wrangler deploy",
+    "test": "node --test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run format:check && npm test && npm run build"
   },
   "repository": {
     "type": "git",
@@ -18,17 +27,12 @@
   },
   "homepage": "https://github.com/adaptive/vat#readme",
   "dependencies": {
-    "fast-xml-parser": "3.20.0",
-    "jsvat": "2.5.3"
+    "fast-xml-parser": "5.11.1",
+    "jsvat": "2.5.4"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "20.0.0",
-    "@rollup/plugin-node-resolve": "13.0.4",
-    "prettier": "2.4.1",
-    "rollup": "2.56.3",
-    "rollup-plugin-copy": "3.4.0",
-    "rollup-plugin-terser": "7.0.2",
-    "@cloudflare/wrangler": "1.19.3"
+    "prettier": "3.9.8",
+    "wrangler": "4.135.0"
   },
   "private": true
 }

@@ -26,23 +26,20 @@ export const allowed = [
   "se",
   "si",
   "sk",
-  "xi"
+  "xi",
 ];
 
-export const mime = {
-  html: "text/html",
-  js: "application/javascript",
-  json: "application/json",
-  xml: "application/xml",
-  txt: "text/plain"
-};
+export const VERSION = "0.1.4";
+export const CACHE_TTL_SECONDS = 86_400;
+export const RATE_LIMIT = 60;
+export const RATE_PERIOD_SECONDS = 60;
 
 export const welcome = `VAT Status Validation - VIES Relay API
 Validation across the European Union
 AT BE BG CY CZ DE DK EE EL ES FI FR HR HU IE IT LT LU LV MT NL PL PT RO SE SI SK XI
 
 API Limits:
-To avoid abuse each IP address is rate limited at 60 request/min. Header X-Rate-Limit-Remaining tells you the amount of requests left per period.
+To avoid abuse each IP address is rate limited at ${RATE_LIMIT} requests/${RATE_PERIOD_SECONDS} seconds. Header X-Rate-Limit-Remaining tells you the amount of requests left per period.
 
 Usage:
 Request
